@@ -8,7 +8,7 @@ terraform {
   backend "remote" {
     organization = "sk-tf-cloud"
     workspaces {
-      name = "example-workspace"
+      name = "sk_aws_vpc_2t_template"
     }
   }
 }
