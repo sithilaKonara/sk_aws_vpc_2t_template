@@ -17,7 +17,7 @@ locals {
 }
 
 output "json_data" {
-  value = jsonencode(local.json_data)
+  value = local.json_data
 }
 
 
