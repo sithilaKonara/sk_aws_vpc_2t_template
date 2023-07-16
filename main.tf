@@ -22,23 +22,25 @@ output "json_data" {
 
 
 
-# module "vpc" {
-#   source = "terraform-aws-modules/vpc/aws"
+module "vpc" {
 
-#   name = "my-vpc"
-#   cidr = "10.0.0.0/16"
+  source = "terraform-aws-modules/vpc/aws"
+  count  = length(local.json_data.vpc)
 
-#   azs             = ["eu-west-1a", "eu-west-1b", "eu-west-1c"]
-#   private_subnets = ["10.0.1.0/24", "10.0.2.0/24", "10.0.3.0/24"]
-#   public_subnets  = ["10.0.101.0/24", "10.0.102.0/24", "10.0.103.0/24"]
+  name = local.json_data[count.index].name
+  cidr = local.json_data[count.index].cidr
 
-#   enable_nat_gateway = true
-#   enable_vpn_gateway = true
+  azs             = local.json_data[count.index].azs
+  private_subnets = local.json_data[count.index].private_subnets
+  public_subnets  = local.json_data[count.index].public_subnets
 
-#   tags = {
-#     Terraform   = "true"
-#     Environment = "dev"
-#   }
-# }
+  enable_nat_gateway = local.json_data[count.index].enable_nat_gateway
+  enable_vpn_gateway = local.json_data[count.index].enable_vpn_gateway
+
+  tags = {
+    Terraform   = "${local.json_data[count.index].tags.Terraform}"
+    Environment = "${local.json_data[count.index].tags.Terraform}"
+  }
+}
 
 

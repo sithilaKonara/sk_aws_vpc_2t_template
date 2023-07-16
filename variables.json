@@ -11,7 +11,7 @@
     "enable_vpn_gateway" : true,
     
     "tags" : {
-      "Terraform"   : true,
+      "Terraform"   : "true",
       "Environment" : "dev"
     }
   },
@@ -27,7 +27,7 @@
     "enable_vpn_gateway" : true,
     
     "tags" : {
-      "Terraform"   : true,
+      "Terraform"   : "true11",
       "Environment" : "test"
     }
   }]
