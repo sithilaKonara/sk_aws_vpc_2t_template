@@ -27,19 +27,19 @@ module "vpc" {
   source = "terraform-aws-modules/vpc/aws"
   count  = length(local.json_data.vpc)
 
-  name = local.json_data[count.index].name
-  cidr = local.json_data[count.index].cidr
+  name = local.json_data.vpc[count.index-1].name
+  cidr = local.json_data.vpc[count.index-1].cidr
 
-  azs             = local.json_data[count.index].azs
-  private_subnets = local.json_data[count.index].private_subnets
-  public_subnets  = local.json_data[count.index].public_subnets
+  azs             = local.json_data.vpc[count.index-1].azs
+  private_subnets = local.json_data.vpc[count.index-1].private_subnets
+  public_subnets  = local.json_data.vpc[count.index-1].public_subnets
 
-  enable_nat_gateway = local.json_data[count.index].enable_nat_gateway
-  enable_vpn_gateway = local.json_data[count.index].enable_vpn_gateway
+  enable_nat_gateway = local.json_data.vpc[count.index-1].enable_nat_gateway
+  enable_vpn_gateway = local.json_data.vpc[count.index-1].enable_vpn_gateway
 
   tags = {
-    Terraform   = "${local.json_data[count.index].tags.Terraform}"
-    Environment = "${local.json_data[count.index].tags.Terraform}"
+    Terraform   = "${local.json_data.vpc[count.index-1].tags.Terraform}"
+    Environment = "${local.json_data.vpc[count.index-1].tags.Terraform}"
   }
 }
 
