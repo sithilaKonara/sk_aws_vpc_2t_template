@@ -1,8 +1,8 @@
 resource "aws_s3_bucket" "example" {
-  bucket = "sk_my_bucket"
+  bucket = "sk-my-bucket"
 
   tags = {
-    Name        = "sk_my_bucket"
+    Name        = "sk-my-bucket"
     Environment = "Dev"
   }
 }
