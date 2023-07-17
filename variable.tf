@@ -10,5 +10,4 @@ variable "v_vpc" {
     tags               = map(string)
     })
   )
-  default = jsondecode(file("variables.json"))
 }
