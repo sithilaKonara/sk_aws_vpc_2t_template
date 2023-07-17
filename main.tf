@@ -1,51 +1,42 @@
-# locals {
-#   json_data = jsondecode(file("variables.json"))
-# }
-
-# output "json_data" {
-#   value = length(local.json_data.vpc)
-# }
-
 # module "vpc" {
-#   count  = length(local.json_data.vpc)
+#   count  = length(var.v_vpc)
 #   source = "terraform-aws-modules/vpc/aws"
 
 
-#   name = local.json_data.vpc[count.index].name
-#   cidr = local.json_data.vpc[count.index].cidr
+#   name = var.v_vpc[count.index].name
+#   cidr = var.v_vpc[count.index].cidr
 
-#   azs             = local.json_data.vpc[count.index].azs
-#   private_subnets = local.json_data.vpc[count.index].private_subnets
-#   public_subnets  = local.json_data.vpc[count.index].public_subnets
+#   azs             = var.v_vpc[count.index].azs
+#   private_subnets = var.v_vpc[count.index].private_subnets
+#   public_subnets  = var.v_vpc[count.index].public_subnets
 
-#   enable_nat_gateway = local.json_data.vpc[count.index].enable_nat_gateway
-#   enable_vpn_gateway = local.json_data.vpc[count.index].enable_vpn_gateway
+#   enable_nat_gateway = var.v_vpc[count.index].enable_nat_gateway
+#   enable_vpn_gateway = var.v_vpc[count.index].enable_vpn_gateway
 
 #   tags = {
-#     Terraform   = "${local.json_data.vpc[count.index].tags.Terraform}"
-#     Environment = "${local.json_data.vpc[count.index].tags.Terraform}"
+#     Terraform   = "${var.v_vpc[count.index].tags["Terraform"]}"
+#     Environment = "${var.v_vpc[count.index].tags["Environment"]}"
 #   }
 # }
 
-
 module "vpc" {
-  count  = length(var.v_vpc)
-  source = "terraform-aws-modules/vpc/aws"
+  for_each = { for vpc in var.v_vpc : vpc.name => vpc }
+  source   = "terraform-aws-modules/vpc/aws"
 
 
-  name = var.v_vpc[count.index].name
-  cidr = var.v_vpc[count.index].cidr
+  name = each.value.name
+  cidr = each.value.cidr
 
-  azs             = var.v_vpc[count.index].azs
-  private_subnets = var.v_vpc[count.index].private_subnets
-  public_subnets  = var.v_vpc[count.index].public_subnets
+  azs             = each.value.azs
+  private_subnets = each.value.private_subnets
+  public_subnets  = each.value.public_subnets
 
-  enable_nat_gateway = var.v_vpc[count.index].enable_nat_gateway
-  enable_vpn_gateway = var.v_vpc[count.index].enable_vpn_gateway
+  enable_nat_gateway = each.value.enable_nat_gateway
+  enable_vpn_gateway = each.value.enable_vpn_gateway
 
   tags = {
-    Terraform   = "${var.v_vpc[count.index].tags["Terraform"]}"
-    Environment = "${var.v_vpc[count.index].tags["Environment"]}"
+    Terraform   = "${each.value.tags["Terraform"]}"
+    Environment = "${each.value.tags["Environment"]}"
   }
 }
 
