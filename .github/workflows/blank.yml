@@ -29,4 +29,7 @@ jobs:
           SONAR?TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
+            sonar.organization=sithilakonara
+            sonar.projectKey=sk_aws_vpc_2t_template
+          
        
